@@ -3,13 +3,13 @@ provider "aws" {
   profile = "test"
 }
 
-data "http" "myip"{
+data "http" "myip" {
   url = "http://ipv4.icanhazip.com"
 }
 
 resource "aws_security_group" "ec2_allow_rule" {
 
-ingress {
+  ingress {
     description = "HTTPS"
     from_port   = 443
     to_port     = 443
@@ -25,7 +25,7 @@ ingress {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-   ingress {
+  ingress {
     description = "MYSQL/Aurora"
     from_port   = 3306
     to_port     = 3306
@@ -33,7 +33,7 @@ ingress {
     cidr_blocks = ["172.31.0.0/16"]
   }
 
-ingress {
+  ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
@@ -48,10 +48,10 @@ ingress {
 
 
 resource "aws_instance" "wp-blog" {
-  ami           = var.instance_ami
-  instance_type = var.instance_type
+  ami                    = var.instance_ami
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.ec2_allow_rule.id]
-  key_name = var.instance_key_name
+  key_name               = var.instance_key_name
   tags = {
     Name = "wp-blog"
   }
