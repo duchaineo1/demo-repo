@@ -48,10 +48,10 @@ ingress {
 
 
 resource "aws_instance" "wp-blog" {
-  ami           = "ami-09e67e426f25ce0d7"
-  instance_type = "t2.micro"
+  ami           = var.instance_ami
+  instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.ec2_allow_rule.id]
-  key_name = "Prod"
+  key_name = var.instance_key_name
   tags = {
     Name = "wp-blog"
   }
