@@ -41,6 +41,13 @@ resource "aws_security_group" "ec2_allow_rule" {
     cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
   }
 
+  egress {
+    description = "Outbound traffic"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "all"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {
     Name = "allow ssh,http,https"
   }
@@ -52,6 +59,28 @@ resource "aws_instance" "wp-blog" {
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.ec2_allow_rule.id]
   key_name               = var.instance_key_name
+  provisioner "file" {
+    source      = "install.sh"
+    destination = "/tmp/install.sh"
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(var.private_key_file_path)
+      host        = aws_instance.wp-blog.public_dns
+    }
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/install.sh",
+      "sudo bash /tmp/install.sh",
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(var.private_key_file_path)
+      host        = aws_instance.wp-blog.public_dns
+    }
+  }
   tags = {
     Name = "wp-blog"
   }

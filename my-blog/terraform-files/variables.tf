@@ -12,3 +12,8 @@ variable "instance_key_name" {
   type    = string
   default = "Prod"
 }
+
+variable "private_key_file_path" {
+  type    = string
+  default = "/mnt/c/users/olivier/.ssh/Prod.pem"
+}
