@@ -1,9 +1,13 @@
 #/bin/sh
 
-sudo apt-get update && sudo apt-get upgrade -y
-mkdir /var/www
-mkdir /var/wwwhtml
+
+wpurl="https://thundering-ops.com"
 install_dir="/var/www/html"
+
+apt update && apt upgrade -y
+mkdir /var/www
+mkdir /var/www/html
+
 #Creating Random WP Database Credenitals
 db_name="wp`date +%s`"
 db_user=$db_name
@@ -13,8 +17,8 @@ mysqlrootpass=`date |md5sum |cut -c '1-12'`
 sleep 1
 
 #### Install Packages for https and mysql
-apt -y install apache2
-apt -y install mysql-server
+apt install -y apache2
+apt install -y mysql-server
 apt install -y lynx
 
 
@@ -91,7 +95,11 @@ grep -A50 'table_prefix' $install_dir/wp-config.php > /tmp/wp-tmp-config
 /usr/bin/mysql -u root -e "CREATE DATABASE $db_name"
 /usr/bin/mysql -u root -e "CREATE USER '$db_name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$db_password';"
 /usr/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON $db_name.* TO '$db_user'@'localhost';"
- 
+
+#### Set wp urls to your domain
+echo "define( 'WP_SITEURL', '${wpurl}' );" >> $install_dir/wp-config.php
+echo "define( 'WP_SITEURL', '${wpurl}' );" >> $install_dir/wp-config.php
 ######Display generated passwords to log file.
+
 string=$(echo "Database Name: $db_name Database User: $db_user Database Password: $db_password Mysql root password: $mysqlrootpass")
-echo >> /root/wp_credentials
+echo $string >> /root/wp_credentials

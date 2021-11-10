@@ -15,5 +15,5 @@ variable "instance_key_name" {
 
 variable "private_key_file_path" {
   type    = string
-  default = "/mnt/c/users/olivier/.ssh/Prod.pem"
+  default = "/mnt/c/users/oduchaine/Terraform/Prod.pem"
 }
