@@ -41,6 +41,14 @@ resource "aws_security_group" "ec2_allow_rule" {
     cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
   }
 
+  ingress {
+    description = "Prometheus"
+    from_port   = -1
+    to_port     = 9117
+    protocol    = "tcp"
+    cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
+  }
+
   egress {
     description = "Outbound traffic"
     from_port   = -1
