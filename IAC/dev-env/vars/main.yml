@@ -1,0 +1,10 @@
+---
+# vars file for dev-env
+packages:
+  - git
+  - curl
+  - vim 
+  - ansible 
+  - zsh
+  - wget
+  - bat

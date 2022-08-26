@@ -1,0 +1,14 @@
+- hosts: all
+  tasks:
+  - block: 
+
+    - name: "[PREREQUISITES] Set variables"
+      ansible.builtin.include_vars:
+        file: "../vars/main.yml"
+        name: variables
+
+    - name: "[SETUP] Install packages"
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ variables.packages }}"
