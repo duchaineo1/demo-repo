@@ -19,4 +19,4 @@
 
     - name: "Install vscode"
       include_tasks: install-vscode.yml
-      when: variables.gui|bool == True
+      when: variables.target_gui_enabled|bool == True

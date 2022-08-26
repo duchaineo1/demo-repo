@@ -9,4 +9,4 @@ packages:
   - wget
   - bat
 username: "olivier"
-gui: true
+target_gui_enabled: true
