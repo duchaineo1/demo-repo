@@ -1,0 +1,26 @@
+---
+# tasks file for install-k8s
+- hosts: all
+  tasks:
+  - block: 
+    - name: "[PREREQUISITES] Set variables"
+      ansible.builtin.include_vars:
+        file: "../vars/main.yml"
+        name: variables
+    
+    - name: "[PREREQUISITES] Enable bridging"
+      become: true
+      become_user: root
+      shell: "echo 'net.bridge.bridge-nf-call-iptables = 1' > /etc/sysctl.d/20-bridge-nf.conf"
+
+    - name: "[PREREQUISITES] Install packages"
+      become: true
+      become_user: root
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+      
+      ## TODO: Install crio and docker tasks
+    - name: "[PREREQUISITES] Install container runtime"
+      ansible.builtin.include_tasks: "install-{{ cluster.container_runtime_name }}.yml"
