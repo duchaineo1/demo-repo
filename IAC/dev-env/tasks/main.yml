@@ -17,6 +17,12 @@
     - name: "[SETUP] Change default shell to zsh"
       ansible.builtin.shell: "usermod --shell $(which zsh) {{ variables.username }}"
 
+    - name: "[SETUP] Set user as passwordless sudoer"
+      ansible.builtin.lineinfile:
+      path: /etc/sudoers
+      state: present
+      line: "{{ variables.username }} ALL=(ALL) NOPASSWD:ALL"
+
     - name: "Install vscode"
       include_tasks: install-vscode.yml
       when: variables.target_gui_enabled|bool == True

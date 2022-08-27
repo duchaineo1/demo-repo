@@ -1,5 +1,7 @@
 ---
 # vars file for dev-env
+username: "olivier"
+target_gui_enabled: true # If set to true enables install for: vscode
 packages:
   - git
   - curl
@@ -8,5 +10,3 @@ packages:
   - zsh
   - wget
   - bat
-username: "olivier"
-target_gui_enabled: true
