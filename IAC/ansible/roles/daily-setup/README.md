@@ -7,16 +7,12 @@ Role Variables
 --------------
 
 ```yaml
-username: "olivier"
+username: "username"
 target_gui_enabled: true # If set to true enables install for: vscode
 packages: # List of packages you want install by default
-  - git
-  - curl
-  - vim 
-  - ansible 
-  - zsh
-  - wget
-  - bat
+  - package1
+  - package2
+  - package3
 network: # See netplan template in vars/template
   STATIC: true # Set network config as static
   TARGET_IP_ADDRESS: "x.x.x.x/24" # Desired IP adress with network mask

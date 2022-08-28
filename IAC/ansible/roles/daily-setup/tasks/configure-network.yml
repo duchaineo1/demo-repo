@@ -1,10 +1,18 @@
 ---
 - name: "Keep a copy of current netplan file"
+  become: true
+  become_user: root
   ansible.builtin.copy:
     src: /etc/netplan/1-network-manager-all.yaml
     dest: /etc/netplan/1-network-manager-all.yaml.copy
 
+- name: "Fetch network interface name"
+  ansible.builtin.shell: "find /sys/class/net -mindepth 1 -maxdepth 1 -lname '*virtual*' -prune -o -printf '%f\n'"
+  register: INTERFACE_NAME
+
 - name: "Copy template to netplan directory"
+  become: true
+  become_user: root
   ansible.builtin.template:
      src: ../vars/template/1-network-manager-all.yaml.j2
      dest: /etc/netplan/1-network-manager-all.yaml

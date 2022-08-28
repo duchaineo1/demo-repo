@@ -1,32 +1,33 @@
-- hosts: all
-  tasks:
-  - block: 
-    - name: "[PREREQUISITES] Set variables"
-      ansible.builtin.include_vars:
-        file: "../vars/main.yml"
-        name: variables
+---
+- block: 
+  - name: "[PREREQUISITES] Set variables"
+    ansible.builtin.include_vars:
+      file: "../vars/main.yml"
+      name: variables
 
-    - name: "[SETUP] Network configuration"
-      include_tasks: configure-network.yml
-      when: variable.network.STATIC|bool == True
+  - name: "[SETUP] Network configuration"
+    include_tasks: configure-network.yml
+    when: variables.network.STATIC|bool == True
 
-    - name: "[SETUP] Install packages"
-      become: true
-      become_user: root
-      ansible.builtin.package:
-        name: "{{ item }}"
-        state: present
-      loop: "{{ variables.packages }}"
+  - name: "[SETUP] Install packages"
+    become: true
+    become_user: root
+    ansible.builtin.package:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ variables.packages }}"
 
-    - name: "[SETUP] Change default shell to zsh"
-      ansible.builtin.shell: "usermod --shell $(which zsh) {{ variables.username }}"
+  - name: "[SETUP] Change default shell to zsh"
+    ansible.builtin.shell: "usermod --shell $(which zsh) {{ variables.username }}"
 
-    - name: "[SETUP] Set user as passwordless sudoer"
-      ansible.builtin.lineinfile:
+  - name: "[SETUP] Set user as passwordless sudoer"
+    become: true
+    become_user: root
+    ansible.builtin.lineinfile:
       path: /etc/sudoers
       state: present
       line: "{{ variables.username }} ALL=(ALL) NOPASSWD:ALL"
 
-    - name: "Install vscode"
-      include_tasks: install-vscode.yml
-      when: variables.target_gui_enabled|bool == True
+  - name: "Install vscode"
+    include_tasks: install-vscode.yml
+    when: variables.target_gui_enabled|bool == True
