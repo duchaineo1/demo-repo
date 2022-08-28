@@ -1,0 +1,12 @@
+---
+- name: "Keep a copy of current netplan file"
+  ansible.builtin.copy:
+    src: /etc/netplan/1-network-manager-all.yaml
+    dest: /etc/netplan/1-network-manager-all.yaml.copy
+
+- name: "Copy template to netplan directory"
+  ansible.builtin.template:
+     src: ../vars/template/1-network-manager-all.yaml.j2
+     dest: /etc/netplan/1-network-manager-all.yaml
+  notify: 
+    - Apply netplan changes

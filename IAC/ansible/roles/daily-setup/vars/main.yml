@@ -10,3 +10,8 @@ packages:
   - zsh
   - wget
   - bat
+network:
+  STATIC: true
+  TARGET_IP_ADDRESS: "192.168.0.129/24"
+  DNS_SERVER: "192.168.0.253"
+  DEFAULT_GATEWAY: "192.168.0.1"

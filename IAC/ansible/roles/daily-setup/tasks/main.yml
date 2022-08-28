@@ -6,6 +6,10 @@
         file: "../vars/main.yml"
         name: variables
 
+    - name: "[SETUP] Network configuration"
+      include_tasks: configure-network.yml
+      when: variable.network.STATIC|bool == True
+
     - name: "[SETUP] Install packages"
       become: true
       become_user: root
