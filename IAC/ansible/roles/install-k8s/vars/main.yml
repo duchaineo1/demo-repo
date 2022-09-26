@@ -2,10 +2,10 @@
 network:
   cluster_subnet: 10.244.0.0/16
 cluster:
-  container_runtime_name: docker 
+  container_runtime_name: crio
 packages:
-  - apt-transport-https 
-  - ca-certificates 
-  - curl 
+  - apt-transport-https
+  - ca-certificates
+  - curl
   - gnupg2
   - software-properties-common

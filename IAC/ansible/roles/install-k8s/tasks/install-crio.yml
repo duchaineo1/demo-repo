@@ -1,20 +1,26 @@
 ---
-- name: "[CRIO] Enable backport for libseccomp"
-  become: true
-  become_user: root
-  ansible.builtin.shell: | 
-    "echo 'deb http://deb.debian.org/debian buster-backports main' > /etc/apt/sources.list.d/backports.list"
-    "apt update"
-    "apt install -y -t buster-backports libseccomp2 || apt update -y -t buster-backports libseccomp2"
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    url: https://download.opensuse.org/repositories/devel
 
-- name: "[CRIO] Install crio and crio-run-c"
-  become: true
-  become_user: root
-  ansible.builtin.shell: | 
-    "echo 'deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
-    "echo 'deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list"
-    "mkdir -p /usr/share/keyrings"
-    "curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-archive-keyring.gpg"
-    "curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/Release.key | gpg --dearmor -o /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg"
-    "apt-get update"
-    "apt-get install cri-o cri-o-runc"
+- name: "add packages for CRIO"
+  ansible.builtin.apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /
+    state: present
+  notify: "Update apt cache"
+
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    url: https://download.opensuse.org/repositories/devel
+    state: present
+
+- name: "flush handlers"
+  ansible.builtin.meta: flush_handlers
+
+- name: "[CRIO] install backports packages"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - buster-backports
+    - libseccomp2
