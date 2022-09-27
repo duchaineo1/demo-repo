@@ -1,15 +1,13 @@
 ---
 # tasks file for install-k8s
-- block: 
+- block:
    - name: "[PREREQUISITES] Set variables"
      ansible.builtin.include_vars:
       file: "../vars/main.yml"
       name: variables
-   
-   - name: "[PREREQUISITES] Enable bridging"
-     become: true
-     become_user: root
-     shell: "echo 'net.bridge.bridge-nf-call-iptables = 1' > /etc/sysctl.d/20-bridge-nf.conf"
+
+   - name: "[PREREQUISITES] IP forwarding"
+     ansible.builtin.include_tasks: "host-networking/ip-forward.yml"
 
    - name: "[PREREQUISITES] Install packages"
      become: true
@@ -18,9 +16,9 @@
        name: "{{ item }}"
        state: present
      loop: "{{ packages }}"
-   
+
    - name: "[PREREQUISITES] Install container runtime"
-     ansible.builtin.include_tasks: "install-{{ cluster.container_runtime_name }}.yml"
+     ansible.builtin.include_tasks: "runtimes/install-{{ cluster.container_runtime_name }}.yml"
 
    - name: "Install kube* binaries"
      ansible.builtin.include_tasks: "install-kube_binaries.yml"

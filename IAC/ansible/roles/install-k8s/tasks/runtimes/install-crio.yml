@@ -1,0 +1,40 @@
+---
+- name: Add GPG key - Ubuntu
+  ansible.builtin.get_url:
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_22.04/Release.key
+    dest: /etc/apt/trusted.gpg.d/libcontainers
+
+- name: Add GPG key - Crio
+  ansible.builtin.get_url:
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.24/xUbuntu_22.04/Release.key
+    dest: /etc/apt/trusted.gpg.d/crio
+
+- name: somerepo | apt source
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/libcontainers] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_22.04/ /"
+    state: present
+  notify: "Update apt cache"
+
+- name: somerepo | apt source
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/crio] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.24/xUbuntu_22.04/ /"
+    state: present
+  notify: "Update apt cache"
+
+- name: "flush handlers"
+  ansible.builtin.meta: flush_handlers
+
+- name: "[CRIO] install backports packages"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - libseccomp2
+    - cri-o
+    - cri-o-runc
+
+- name: "[CRIO] Start service"
+  ansible.builtin.service:
+    name: crio
+    state: started
+    enabled: yes

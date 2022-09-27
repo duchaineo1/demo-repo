@@ -33,7 +33,7 @@ resource "digitalocean_droplet" "web" {
   image  = "ubuntu-22-04-x64"
   name   = "web-1"
   region = "nyc3"
-  size   = "s-1vcpu-1gb"
+  size   = "s-2vcpu-2gb"
   ssh_keys = [digitalocean_ssh_key.dev-key.fingerprint]
   tags = ["terraform"]
 }
