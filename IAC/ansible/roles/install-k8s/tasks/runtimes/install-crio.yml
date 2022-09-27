@@ -9,13 +9,13 @@
     url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.24/xUbuntu_22.04/Release.key
     dest: /etc/apt/trusted.gpg.d/crio
 
-- name: somerepo | apt source
+- name: "Add libcontainers repository"
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/libcontainers] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_22.04/ /"
     state: present
   notify: "Update apt cache"
 
-- name: somerepo | apt source
+- name: "Add cri-o repository"
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/crio] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.24/xUbuntu_22.04/ /"
     state: present
@@ -24,7 +24,7 @@
 - name: "flush handlers"
   ansible.builtin.meta: flush_handlers
 
-- name: "[CRIO] install backports packages"
+- name: "[CRIO] install cri-o packages"
   ansible.builtin.package:
     name: "{{ item }}"
     state: present

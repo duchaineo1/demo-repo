@@ -22,3 +22,9 @@
 
    - name: "Install kube* binaries"
      ansible.builtin.include_tasks: "install-kube_binaries.yml"
+
+   - name: "Initialize cluster"
+     ansible.builtin.include_tasks: "cluster-init/cluster-init.yml"
+
+   - name: "Initialize cluster network"
+     ansible.builtin.include_tasks: "cluster-networking/cluster-networking.yml"
