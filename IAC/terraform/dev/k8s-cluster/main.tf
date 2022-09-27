@@ -25,15 +25,15 @@ terraform {
 }
 
 resource "digitalocean_ssh_key" "dev-key" {
-  name       = "Terraform Example"
-  public_key = file("/home/oduchaine/.ssh/digitalocean.pub")
+  name       = "cluster_01"
+  public_key = file(var.ssh_public_key_path)
 }
 
-resource "digitalocean_droplet" "web" {
-  image  = "ubuntu-22-04-x64"
-  name   = "web-1"
-  region = "nyc3"
-  size   = "s-2vcpu-2gb"
+resource "digitalocean_droplet" "cluster01" {
+  image  = var.droplet_image_name
+  name   = var.droplet_cluster_name
+  region = var.droplet_region_name
+  size   = var.droplet_size
   ssh_keys = [digitalocean_ssh_key.dev-key.fingerprint]
   tags = ["terraform"]
 }
