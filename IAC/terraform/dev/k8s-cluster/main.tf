@@ -15,9 +15,9 @@ provider "digitalocean" {
 
 terraform {
   backend "s3" {
-    bucket = "terraform-backends"
-    key    = "dev/terraform.tfstate"
-    region = "us-east-1"
+    bucket = "${var.bucket}"
+    key    = "${var.key}"
+    region = "${var.region}"
     endpoint = "https://nyc3.digitaloceanspaces.com"
     skip_credentials_validation = true
     skip_metadata_api_check = true
