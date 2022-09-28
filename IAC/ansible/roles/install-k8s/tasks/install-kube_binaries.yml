@@ -1,0 +1,37 @@
+---
+- name: "Get Google's public signing key"
+  become: true
+  become_user: root
+  ansible.builtin.get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+
+- name: "Add Kubernetes apt repository"
+  become: true
+  become_user: root
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: present
+  notify: "Update apt cache"
+
+- name: "Install kube* binaries"
+  become: true
+  become_user: root
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - kubeadm
+    - kubelet
+    - kubectl
+
+- name: "Hold kube* packages"
+  become: true
+  become_user: root
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubeadm      
+    - kubelet  
+    - kubectl

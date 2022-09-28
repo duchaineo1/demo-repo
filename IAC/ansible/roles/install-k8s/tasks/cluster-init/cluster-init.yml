@@ -1,0 +1,8 @@
+---
+- name: "[K8S - init] Kubeadm"
+  ansible.builtin.shell: |
+    kubeadm init
+
+- name: "[k8s] Remove master node taint"
+  shell:
+    cmd: "/usr/bin/kubectl --kubeconfig=/etc/kubernetes/admin.conf taint node {{ ansible_host }} node-role.kubernetes.io/control-plane:NoSchedule-"
