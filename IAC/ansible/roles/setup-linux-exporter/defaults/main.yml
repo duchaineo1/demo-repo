@@ -1,0 +1,6 @@
+---
+# defaults file for setup-linux-exporter
+NODE_EXPORTER_ARCHIVE_DIRECTORY: "/tmp/node_exporter"
+NODE_EXPORTER_ARCHIVE_DESTINATION: "/tmp/node_exporter/node_exporter.tar"
+NODE_EXPORTER_BINARY_DESTINATION: "/usr/bin/node_exporter"
+NODE_EXPORTER_VERSION: "1.5.0"
