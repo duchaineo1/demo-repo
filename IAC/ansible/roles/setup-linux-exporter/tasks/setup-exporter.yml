@@ -4,7 +4,6 @@
     path: "{{ NODE_EXPORTER_ARCHIVE_DIRECTORY  }}"
     state: directory
 
-
 - name: "[Create user]"
   ansible.builtin.user:
     name: node_exporter
