@@ -18,7 +18,6 @@ Example Playbook
   become: true
   become_user: root
   roles:
-    - setup-prometheus
-    - setup-alert-manager
+    - setup-linux-exporter
 ```
 
