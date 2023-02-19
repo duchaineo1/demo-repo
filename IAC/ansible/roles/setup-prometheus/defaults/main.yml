@@ -1,0 +1,6 @@
+---
+# defaults file for setup-prometheus
+PROMETHEUS_TAR_DESTINATION: /tmp/prometheus.tar.gz
+PROMETHEUS_TAR_DIRECTORY: /tmp/prometheus-setup/
+PROMETHEUS_VERSION: "prometheus-2.42.0.linux-amd64"
+PROMETHEUS_VERSION_SHORT: "2.42.0"

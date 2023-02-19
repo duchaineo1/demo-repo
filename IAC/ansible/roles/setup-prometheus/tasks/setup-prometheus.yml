@@ -1,0 +1,77 @@
+- name: "[Create prometheus user]"
+  ansible.builtin.user:
+    name: prometheus
+    state: present
+    shell: /bin/false
+    create_home: false
+
+- name: "[Create prometheus's directory structure]"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: 0644
+  with_items:
+    - "/etc/prometheus/"
+    - "/var/lib/prometheus/"
+    - "{{ PROMETHEUS_TAR_DIRECTORY  }}"
+
+- name: "[Download Prometheus binary]"
+  ansible.builtin.get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ PROMETHEUS_VERSION_SHORT  }}/{{ PROMETHEUS_VERSION }}.tar.gz"
+    dest: "{{ PROMETHEUS_TAR_DESTINATION }}"
+    mode: 0644
+
+- name: "[Untar Prometheus binary]"
+  ansible.builtin.unarchive:
+    src: "{{ PROMETHEUS_TAR_DESTINATION  }}"
+    dest: "{{ PROMETHEUS_TAR_DIRECTORY }}"
+    remote_src: yes
+
+- name: "[Move Prometheus binaries]"
+  ansible.builtin.copy:
+    src: "{{ PROMETHEUS_TAR_DIRECTORY }}/{{ PROMETHEUS_VERSION  }}/{{ item }}"
+    dest: "/usr/local/bin/"
+    owner: prometheus
+    group: prometheus
+    mode: 0777
+    remote_src: yes
+  with_items:
+    - "prometheus"
+    - "promtool"
+
+- name: "[Move Prometheus libraries]"
+  ansible.builtin.copy:
+    src: "{{ PROMETHEUS_TAR_DIRECTORY  }}/{{ PROMETHEUS_VERSION  }}/{{ item }}"
+    dest: /etc/prometheus/
+    owner: prometheus
+    group: prometheus
+    remote_src: yes
+  with_items:
+    - "consoles/"
+    - "console_libraries/"
+
+- name: "[Move Prometheus default config file]"
+  ansible.builtin.copy:
+    src: ../templates/prometheus.yml
+    dest: /etc/prometheus/
+    owner: prometheus
+    group: prometheus
+
+- name: "[Move Prometheus unit file]"
+  ansible.builtin.copy:
+    src: "../templates/prometheus.unit.file"
+    dest: "/usr/lib/systemd/system/prometheus.service"
+    owner: prometheus
+    group: prometheus
+    mode: 0644
+
+- name: "[Restart systemd daemon]"
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: "[Start prometheus service]"
+  ansible.builtin.service:
+    name: prometheus
+    state: started
