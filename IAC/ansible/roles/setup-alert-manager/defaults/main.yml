@@ -1,0 +1,5 @@
+---
+# defaults file for setup-alert-manager
+ALERT_MANAGER_ARCHIVE_DESTINATION: "/tmp/alertmanager.tar.gz"
+ALERT_MANAGER_VERSION: "0.25.0"
+ALERT_MANAGER_ARCHIVE_DIRECTORY: "/tmp/alertmanager-setup/"

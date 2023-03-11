@@ -1,0 +1,55 @@
+- name: "[Create alertmanager user]"
+  ansible.builtin.user:
+    name: alertmanager
+    state: present
+
+- name: "[Create alermanager directories]"
+  ansible.builtin.file:
+    name: "{{ item  }}"
+    state: directory
+    owner: alertmanager
+    group: alertmanager
+  with_items:
+    - "/etc/alertmanager"
+    - "{{ ALERT_MANAGER_ARCHIVE_DIRECTORY  }}"
+
+- name: "[Download alert manager]"
+  ansible.builtin.get_url:
+    url: "https://github.com/prometheus/alertmanager/releases/download/v{{ ALERT_MANAGER_VERSION  }}/alertmanager-{{ ALERT_MANAGER_VERSION }}.linux-amd64.tar.gz"
+    dest: "{{ ALERT_MANAGER_ARCHIVE_DESTINATION }}"
+
+- name: "[Unarchive alert manager]"
+  ansible.builtin.unarchive:
+    src: "{{ ALERT_MANAGER_ARCHIVE_DESTINATION }}"
+    dest: "{{ ALERT_MANAGER_ARCHIVE_DIRECTORY }}"
+    remote_src: yes
+
+- name: "[Move alert manager binaries]"
+  ansible.builtin.copy:
+    src: "{{ ALERT_MANAGER_ARCHIVE_DIRECTORY }}/alertmanager-{{ ALERT_MANAGER_VERSION  }}.linux-amd64/alertmanager"
+    dest: "/usr/local/bin/alertmanager"
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: "[Move default config]"
+  ansible.builtin.copy:
+    src: ../templates/alertmanager.yml
+    dest: "/etc/alertmanager/"
+    owner: alertmanager
+    group: alertmanager
+
+- name: "[Move alert manager unit file]"
+  ansible.builtin.copy:
+    src: ../templates/alertmanager.unit.file
+    dest: "/lib/systemd/system/alertmanager.service"
+
+- name: "[Restart daemon]"
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: "[Start alertmanager service]"
+  ansible.builtin.service:
+    name: alertmanager
+    state: started
+
