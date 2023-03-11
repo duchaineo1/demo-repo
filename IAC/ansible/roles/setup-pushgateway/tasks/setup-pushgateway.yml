@@ -1,0 +1,49 @@
+- name: "[Create pushgateway user]"
+  ansible.builtin.user:
+    name: pushgateway
+    state: present
+
+- name: "[Create pushgateway directories]"
+  ansible.builtin.file:
+    name: "{{ item  }}"
+    state: directory
+    owner: pushgateway
+    group: pushgateway
+  with_items:
+    - "/etc/pushgateway"
+    - "{{ PUSH_GATEWAY_ARCHIVE_DIRECTORY  }}"
+
+- name: "[Download pushgateway]"
+  ansible.builtin.get_url:
+    url: "https://github.com/prometheus/pushgateway/releases/download/v{{ PUSH_GATEWAY_VERSION  }}/pushgateway-{{ PUSH_GATEWAY_VERSION }}.linux-amd64.tar.gz"
+    dest: "{{ PUSH_GATEWAY_ARCHIVE_DESTINATION }}"
+
+- name: "[Unarchive pushgateway]"
+  ansible.builtin.unarchive:
+    src: "{{ PUSH_GATEWAY_ARCHIVE_DESTINATION }}"
+    dest: "{{ PUSH_GATEWAY_ARCHIVE_DIRECTORY }}"
+    remote_src: yes
+
+- name: "[Move pushgateway binaries]"
+  ansible.builtin.copy:
+    src: "{{ PUSH_GATEWAY_ARCHIVE_DIRECTORY }}/pushgateway-{{ PUSH_GATEWAY_VERSION  }}.linux-amd64/pushgateway"
+    dest: "/usr/local/bin/pushgateway"
+    owner: root
+    group: root
+    mode: 0770
+    remote_src: yes
+
+- name: "[Move pushgateway unit file]"
+  ansible.builtin.copy:
+    src: ../templates/pushgateway.unit.file
+    dest: "/lib/systemd/system/pushgateway.service"
+
+- name: "[Restart daemon]"
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: "[Start pushgateway service]"
+  ansible.builtin.service:
+    name: pushgateway
+    state: started
+

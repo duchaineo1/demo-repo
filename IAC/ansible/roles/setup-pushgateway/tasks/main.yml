@@ -1,0 +1,7 @@
+---
+# tasks file for setup-alert-manager
+- name: "[Start push-gateway setup]"
+  ansible.builtin.include_tasks:
+    file: "{{ item  }}"
+  with_items:
+    - setup-pushgateway.yml

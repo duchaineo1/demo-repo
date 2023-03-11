@@ -1,0 +1,5 @@
+---
+# defaults file for setup-alert-manager
+PUSH_GATEWAY_ARCHIVE_DESTINATION: "/tmp/pushgateway.tar.gz"
+PUSH_GATEWAY_VERSION: "1.5.1"
+PUSH_GATEWAY_ARCHIVE_DIRECTORY: "/tmp/pushgateway-setup/"
