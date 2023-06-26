@@ -1,0 +1,12 @@
+- name: "Label node"
+  delegate_to: localhost
+  kubernetes.core.k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item.name }}"
+        labels:
+          test: "{{ item.label }}"
+  with_items:
+    - "{{ nodes }}"
