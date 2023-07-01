@@ -5,9 +5,12 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
+User=alertmanager
+Group=alertmanager
+WorkingDirectory=/home/alertmanager
 Type=simple
 Restart=on-failure
 ExecStart=/usr/local/bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.targetantedBy=multi-user.target

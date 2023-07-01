@@ -5,6 +5,9 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
+User=node_exporter
+Group=node_exporter
+WorkingDirectory=/home/node_exporter
 Type=simple
 Restart=on-failure
 ExecStart=/usr/bin/node_exporter

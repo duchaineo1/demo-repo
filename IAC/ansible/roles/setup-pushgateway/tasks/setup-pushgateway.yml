@@ -28,9 +28,9 @@
   ansible.builtin.copy:
     src: "{{ PUSH_GATEWAY_ARCHIVE_DIRECTORY }}/pushgateway-{{ PUSH_GATEWAY_VERSION  }}.linux-amd64/pushgateway"
     dest: "/usr/local/bin/pushgateway"
-    owner: root
-    group: root
-    mode: 0770
+    owner: pushgateway
+    group: pushgateway
+    mode: a+x 
     remote_src: yes
 
 - name: "[Move pushgateway unit file]"

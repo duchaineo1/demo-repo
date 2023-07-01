@@ -2,8 +2,6 @@
   ansible.builtin.user:
     name: prometheus
     state: present
-    shell: /bin/false
-    create_home: false
 
 - name: "[Create prometheus's directory structure]"
   ansible.builtin.file:
@@ -11,7 +9,7 @@
     state: directory
     owner: prometheus
     group: prometheus
-    mode: 0644
+    mode: 0770
   with_items:
     - "/etc/prometheus/"
     - "/var/lib/prometheus/"
@@ -35,7 +33,7 @@
     dest: "/usr/local/bin/"
     owner: prometheus
     group: prometheus
-    mode: 0777
+    mode: a+x
     remote_src: yes
   with_items:
     - "prometheus"
@@ -58,6 +56,7 @@
     dest: /etc/prometheus/
     owner: prometheus
     group: prometheus
+    mode: 0770
 
 - name: "[Move Prometheus unit file]"
   ansible.builtin.copy:
@@ -74,4 +73,4 @@
 - name: "[Start prometheus service]"
   ansible.builtin.service:
     name: prometheus
-    state: started
+    state: restarted

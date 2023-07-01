@@ -25,12 +25,10 @@
   ansible.builtin.copy:
     src: "{{ NODE_EXPORTER_ARCHIVE_DIRECTORY }}/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-amd64/node_exporter"
     dest: "{{ NODE_EXPORTER_BINARY_DESTINATION }}"
-    remote_src: yes
-
-- name: "[Make node_exporter binary executable]"
-  ansible.builtin.file:
-    dest: "{{ NODE_EXPORTER_BINARY_DESTINATION }}"
+    owner: node_exporter
+    group: node_exporter
     mode: a+x
+    remote_src: yes
 
 - name: "[Copy unit file]"
   ansible.builtin.copy:

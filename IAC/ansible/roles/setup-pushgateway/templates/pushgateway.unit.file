@@ -1,10 +1,13 @@
 [Unit]
 Description=pushgateway
-Documentation=https://prometheus.io/docs/guides/prometheus
+Documentation=https://pushgateway.io/docs/guides/pushgateway
 Wants=network-online.target
 After=network-online.target
 
 [Service]
+User=pushgateway
+Group=pushgateway
+WorkingDirectory=/home/pushgateway
 Type=simple
 Restart=on-failure
 ExecStart=/usr/local/bin/pushgateway
