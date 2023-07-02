@@ -28,8 +28,9 @@
   ansible.builtin.copy:
     src: "{{ ALERT_MANAGER_ARCHIVE_DIRECTORY }}/alertmanager-{{ ALERT_MANAGER_VERSION  }}.linux-amd64/alertmanager"
     dest: "/usr/local/bin/alertmanager"
-    owner: root
-    group: root
+    owner: alertmanager
+    group: alertmanager
+    mode: a+x
     remote_src: yes
 
 - name: "[Move default config]"
