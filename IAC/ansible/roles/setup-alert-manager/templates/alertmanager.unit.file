@@ -13,4 +13,4 @@ Restart=on-failure
 ExecStart=/usr/local/bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
 
 [Install]
-WantedBy=multi-user.targetantedBy=multi-user.target
+WantedBy=multi-user.target
