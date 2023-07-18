@@ -6,7 +6,7 @@ groups:
       for: 5m
       expr: up{job="exporter"} == 0
     
-    - alert: HostMemoryIsUnderUtilized
+    - alert: HostDiskIsAlmostFull
       expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10
       for: 10m
       labels:
