@@ -5,6 +5,15 @@ groups:
     - alert: node_exporter_down
       for: 5m
       expr: up{job="exporter"} == 0
+    
+    - alert: HostMemoryIsUnderUtilized
+      expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: Host disk is close to full (instance {{ $labels.instance }})
+        description: "Host disk is close to full.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
   # You may want to increase the alert manager 'repeat_interval' for this type of alert to daily or weekly
     - alert: HostMemoryIsUnderUtilized
