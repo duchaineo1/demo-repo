@@ -1,0 +1,33 @@
+---
+- name: "[Create users]"
+  become: true
+  become_user: root
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    groups: "{{ item.groups }}"
+    shell: "{{ item.shell }}"
+    password: "!"
+  with_items:
+    - "{{ ACTIVE_USERS }}"
+
+- name: "[Add user sudo privilege]"
+  become: true
+  become_user: root
+  ansible.builtin.copy:
+    content: "%{{ item.name }} ALL=(ALL:ALL) NOPASSWD:ALL"
+    dest: "/etc/sudoers.d/{{ item.name }}"
+    mode: 0440
+  with_items:
+    - "{{ ACTIVE_USERS }}"
+
+- name: "[Add SSH key to users authorized_keys]"
+  become: true
+  become_user: root
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.key }}"
+  with_items:
+    - "{{ ACTIVE_USERS }}"
+

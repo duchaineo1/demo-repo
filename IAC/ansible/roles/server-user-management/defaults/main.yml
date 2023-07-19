@@ -1,0 +1,7 @@
+---
+ACTIVE_USERS:
+  - name: "olivier"
+    uid: "10000"
+    shell: "/bin/bash"
+    groups: "sudo"
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH2It3+0+8DI6z3WbWknl3lG+6RUn9h8VeT4nu4+jwGe olivier@greyjoy"

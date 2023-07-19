@@ -1,0 +1,8 @@
+---
+- name: "[Create user tasks]"
+  ansible.builtin.include_tasks:
+    file: "{{ playbook }}"
+  with_items:
+    - create_users.yml
+  loop_control:
+    loop_var: playbook
