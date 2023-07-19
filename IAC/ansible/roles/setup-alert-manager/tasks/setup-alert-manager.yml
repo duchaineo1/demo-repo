@@ -1,3 +1,4 @@
+---
 - name: "[Create alertmanager user]"
   ansible.builtin.user:
     name: alertmanager

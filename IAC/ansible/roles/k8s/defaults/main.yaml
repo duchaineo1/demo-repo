@@ -1,8 +1,0 @@
-nodes:
-  - name: "kind-control-plane"
-    label: "label-control-plane-1"
-  - name: "kind-worker"
-    label: "label-worker-1"
-  - name: "kind-worker2"
-    label: "label-worker-2"
-
