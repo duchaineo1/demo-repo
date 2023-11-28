@@ -3,7 +3,7 @@
   become: true
   become_user: root
   roles:
-    - setup-prometheus 
+    - setup-prometheus
     - setup-linux-exporter
-    - setup-alert-manager 
+    - setup-alert-manager
     - setup-pushgateway

@@ -1,0 +1,20 @@
+repos:
+  - repo: git@github.com:pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-shebang-scripts-are-executable
+
+  - repo: git@github.com:pre-commit/mirrors-autopep8
+    rev: v1.5.7
+    hooks:
+      - id: autopep8
+
+  - repo: git@github.com:psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+        args: ['--line-length', '88']
