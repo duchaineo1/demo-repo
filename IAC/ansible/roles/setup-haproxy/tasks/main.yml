@@ -1,0 +1,5 @@
+---
+# tasks file for setup-linux-exporter
+
+- name: "[start linux exporter setup]"
+  ansible.builtin.include_tasks: setup-haproxy.yml

@@ -1,0 +1,25 @@
+---
+- name: "[Install haproxy package]"
+  ansible.builtin.package:
+    name: haproxy
+    state: present
+
+- name: "[move haproxy config]"
+  ansible.builtin.template:
+    src: "templates/haproxy.cfg.j2"
+    dest: "/etc/haproxy/haproxy.cfg"
+    owner: root
+    group: root
+
+- name: "[Copy cert for haproxy]"
+  ansible.builtin.copy:
+    src: certs/thundering-ops.fullchain.pem
+    dest: /etc/ssl/certs/thundering-ops.fullchain.pem
+    owner: root
+    group: root
+
+- name: "[Start haproxy service]"
+  ansible.builtin.service:
+    name: haproxy
+    state: restarted
+    enabled: true
