@@ -18,16 +18,16 @@ fi
 
 if [ -z ${RECONFIGURE+x} ]; then
     terraform init \
-         -backend-config "bucket=$TF_VAR_tf_state_bucket" \
-         -backend-config "region=$TF_VAR_region" \
-         -backend-config "key=$TF_VAR_environment/$TF_VAR_state_file_name" \
-         -backend-config "secret_key=$SPACES_SECRET_KEY" \
-         -backend-config "access_key=$SPACES_ACCESS_TOKEN"
+        -backend-config "bucket=$TF_VAR_tf_state_bucket" \
+        -backend-config "region=$TF_VAR_region" \
+        -backend-config "key=$TF_VAR_environment/$TF_VAR_state_file_name" \
+        -backend-config "secret_key=$SPACES_SECRET_KEY" \
+        -backend-config "access_key=$SPACES_ACCESS_TOKEN"
 else
     terraform init -reconfigure \
-         -backend-config "bucket=$TF_VAR_tf_state_bucket" \
-         -backend-config "region=$TF_VAR_region" \
-         -backend-config "key=$TF_VAR_environment/$TF_VAR_state_file_name" \
-         -backend-config "secret_key=$SPACES_SECRET_KEY" \
-         -backend-config "access_key=$SPACES_ACCESS_TOKEN"
+        -backend-config "bucket=$TF_VAR_tf_state_bucket" \
+        -backend-config "region=$TF_VAR_region" \
+        -backend-config "key=$TF_VAR_environment/$TF_VAR_state_file_name" \
+        -backend-config "secret_key=$SPACES_SECRET_KEY" \
+        -backend-config "access_key=$SPACES_ACCESS_TOKEN"
 fi
