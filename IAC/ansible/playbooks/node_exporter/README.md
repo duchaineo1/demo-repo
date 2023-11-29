@@ -1,8 +1,8 @@
 # node exporter
 
-Playbook to install node exporter 
+Playbook to install node exporter
 
-## usage 
+## usage
 
 ```bash
 ansible-playbook playbook.yml -i ../../inventories/inventory.ini

@@ -30,7 +30,7 @@
     dest: "/usr/local/bin/pushgateway"
     owner: pushgateway
     group: pushgateway
-    mode: a+x 
+    mode: a+x
     remote_src: yes
 
 - name: "[Move pushgateway unit file]"

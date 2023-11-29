@@ -30,4 +30,3 @@
     key: "{{ item.key }}"
   with_items:
     - "{{ ACTIVE_USERS }}"
-

@@ -20,4 +20,3 @@ Example Playbook
   roles:
     - setup-linux-exporter
 ```
-

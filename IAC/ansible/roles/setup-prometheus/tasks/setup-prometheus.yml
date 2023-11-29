@@ -52,7 +52,7 @@
 
 - name: "[Move Prometheus default config file]"
   ansible.builtin.copy:
-    src: "{{ item }}" 
+    src: "{{ item }}"
     dest: /etc/prometheus/
     owner: prometheus
     group: prometheus

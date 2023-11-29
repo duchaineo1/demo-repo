@@ -55,4 +55,3 @@
     name: alertmanager
     state: started
     enabled: true
-

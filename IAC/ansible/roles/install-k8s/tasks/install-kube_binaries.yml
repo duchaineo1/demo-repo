@@ -32,6 +32,6 @@
     name: "{{ item }}"
     selection: hold
   loop:
-    - kubeadm      
-    - kubelet  
+    - kubeadm
+    - kubelet
     - kubectl
