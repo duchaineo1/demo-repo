@@ -11,6 +11,8 @@ end
 -- Insert
 
 map("i", "<leader>w", "<Esc>:w<CR>")
+map("i", "<C-s>", "<Esc>:w<CR>")
+map("i", "<C-q>", "<Esc>:q<CR>")
 
 
 -- Normal mode

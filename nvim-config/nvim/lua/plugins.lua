@@ -70,10 +70,10 @@ require("lazy").setup({
         },
         config = true,
         keys = {
-            { "<leader>hm", "<cmd>lua require('harpoon.mark').add_file()<cr>", desc = "Mark file with harpoon" },
-            { "<leader>hn", "<cmd>lua require('harpoon.ui').nav_next()<cr>", desc = "Go to next harpoon mark" },
-            { "<leader>hp", "<cmd>lua require('harpoon.ui').nav_prev()<cr>", desc = "Go to previous harpoon mark" },
-            { "<leader>ha", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", desc = "Show harpoon marks" },
+            { "<leader>hm", "<cmd>lua require('harpoon.mark').add_file()<CR>", desc = "Mark file with harpoon" },
+            { "<leader>hn", "<cmd>lua require('harpoon.ui').nav_next()<CR>", desc = "Go to next harpoon mark" },
+            { "<leader>hp", "<cmd>lua require('harpoon.ui').nav_prev()<CR>", desc = "Go to previous harpoon mark" },
+            { "<leader>ha", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", desc = "Show harpoon marks" },
         },
     },
     {
@@ -84,4 +84,22 @@ require("lazy").setup({
             "nvim-lua/plenary.nvim",
         },
     },
+    {
+       "zbirenbaum/copilot.lua",
+       cmd = "Copilot",
+       build = ":Copilot auth",
+       opts = {
+       suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        keymap = {
+          accept = "<leader>A"
+        }
+      },
+       panel = { enabled = true },
+       filetypes = {
+        help = true,
+       },
+    },
+  },
 })
