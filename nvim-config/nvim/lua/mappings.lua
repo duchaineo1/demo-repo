@@ -17,7 +17,7 @@ map("i", "<C-q>", "<Esc>:q<CR>")
 
 -- Normal mode
 map("n", "<leader>pv", ":e %:h<CR>")
-
+map("n", "<Esc>", "<Esc>:noh<CR>")
 -- Utility
 
 map("n", "<leader>gg", ":LazyGit<CR>")
