@@ -1,3 +1,10 @@
+require "nvchad.options"
+
+-- add yours here!
+
+-- local o = vim.o
+-- o.cursorlineopt ='both' -- to enable cursorline!
+--
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -18,6 +25,3 @@ vim.opt.virtualedit = "block"
 vim.opt.inccommand = "split"
 vim.opt.ignorecase = true
 vim.opt.termguicolors = true
-
-vim.g.mapleader = ","
-vim.g.netrw_banner = 0
